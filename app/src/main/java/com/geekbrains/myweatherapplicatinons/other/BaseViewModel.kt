@@ -1,4 +1,4 @@
-package com.geekbrains.myweatherapplicatinons
+package com.geekbrains.myweatherapplicatinons.other
 
 import androidx.lifecycle.ViewModel
 

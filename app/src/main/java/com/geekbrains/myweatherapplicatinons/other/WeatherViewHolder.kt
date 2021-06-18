@@ -1,4 +1,4 @@
-package com.geekbrains.myweatherapplicatinons
+package com.geekbrains.myweatherapplicatinons.other
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 // поэтому мы обязаны передать его при создании.
 class WeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    fun onBindViewHolder(holder:WeatherViewHolder, position:Int){
+    fun onBindViewHolder(holder: WeatherViewHolder, position:Int){
 
     }
 

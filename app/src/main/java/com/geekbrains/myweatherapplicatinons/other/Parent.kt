@@ -1,4 +1,4 @@
-package com.geekbrains.myweatherapplicatinons
+package com.geekbrains.myweatherapplicatinons.other
 
 open class Parent {
     private val first:String = "first" // видно только внутри класса Parent
