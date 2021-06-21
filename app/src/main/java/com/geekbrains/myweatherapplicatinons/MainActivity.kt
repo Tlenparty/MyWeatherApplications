@@ -1,11 +1,8 @@
-package com.geekbrains.myweatherapplicatinons.view
+package com.geekbrains.myweatherapplicatinons
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.widget.Toast
-import com.geekbrains.myweatherapplicatinons.R
+import com.geekbrains.myweatherapplicatinons.framework.ui.view.main_fragment.MainFragment
 
 
 class MainActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.geekbrains.myweatherapplicatinons.other
+package com.geekbrains.myweatherapplicatinons.experiment.other
 
 /**
  * Ключевое слово data перед декларацией класса даёт компилятору понять, что мы хотим,

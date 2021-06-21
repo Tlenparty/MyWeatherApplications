@@ -1,11 +1,11 @@
-package com.geekbrains.myweatherapplicatinons.viewmodel
+package com.geekbrains.myweatherapplicatinons.framework.ui.view.main_fragment
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.geekbrains.myweatherapplicatinons.model.Repository
-import com.geekbrains.myweatherapplicatinons.model.RepositoryImpl
-import com.geekbrains.myweatherapplicatinons.model.Weather
+import com.geekbrains.myweatherapplicatinons.model.repository.Repository
+import com.geekbrains.myweatherapplicatinons.model.repository.RepositoryImpl
+import com.geekbrains.myweatherapplicatinons.viewmodel.AppState
 import java.lang.Thread.sleep
 
 /**
@@ -26,27 +26,35 @@ LiveData представляет собой реализацию паттерн
 // Передаём в конструктор LiveData, а точнее, реализацию LiveData, поскольку сам класс LiveData абстрактный
 // MutableLiveData - изменяемая лайвдата, добавляет изменяемый обьект
 class MainViewModel(
-    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
-    private val repository: Repository = RepositoryImpl()
-) : ViewModel() {
+    private val repository: Repository
+) : ViewModel(), LifecycleObserver {
+
+    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
 
     // liveData внутри содержит AppState
-    val liveData: LiveData<AppState>
-        get() = liveDataToObserve
+    fun getLiveData() = liveDataToObserve
 
-    fun getWeatherFromLocalSource() {
-        liveDataToObserve.value = AppState.Loading // setValue
+    fun getWeatherFromLocalSourceRus() = getDataFromLocalSource(isRussian = true)
+
+    fun getWeatherFromLocalSourceWorld() = getDataFromLocalSource(isRussian = false)
+
+    fun getWeatherFromRemoteSource() = getDataFromLocalSource(isRussian = true)
+
+    fun getDataFromLocalSource(isRussian: Boolean) {
+        liveDataToObserve.value = AppState.Loading // Показываем загрузку на старте
         Thread {
             sleep(1000)
-            val data = repository.getWeatherFromLocalStorage()
-            liveDataToObserve.postValue(AppState.Success(data)) // Чтобы вернуться на mainThread
+            val data = when (isRussian) {
+                true -> repository.getWeatherFromLocalStorageRus()
+                false -> repository.getWeatherFromLocalStorageWorld()
+            }
+            liveDataToObserve.postValue(AppState.Success(data))
         }.start()
     }
-
-    /**
-     * В классе LiveData доступны методы setValue и postValue: первый метод для обновления данных из основного потока, второй — из рабочего потока.
-     * Есть также открытый метод getData, который возвращает нашу LiveData всем,
-     * кто хочет подписаться на изменения данных. Тип объекта, хранящий в себе LiveData, — Any
-     * (в качестве примера).
-     */
 }
+/**
+ * В классе LiveData доступны методы setValue и postValue: первый метод для обновления данных из
+ * основного потока, второй — из рабочего потока. Есть также открытый метод getData,
+ * который возвращает нашу LiveData всем,кто хочет подписаться на изменения данных.
+ * Тип объекта, хранящий в себе LiveData, — Any (в качестве примера).
+ */
