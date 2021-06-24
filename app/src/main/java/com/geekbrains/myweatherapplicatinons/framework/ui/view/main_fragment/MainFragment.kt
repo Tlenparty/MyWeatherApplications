@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.geekbrains.myweatherapplicatinons.R
 import com.geekbrains.myweatherapplicatinons.databinding.FragmentMainBinding
+import com.geekbrains.myweatherapplicatinons.experiment.showSnackBar
 import com.geekbrains.myweatherapplicatinons.model.Weather
 import com.geekbrains.myweatherapplicatinons.framework.ui.adapters.MainFragmentAdapter
 import com.geekbrains.myweatherapplicatinons.framework.ui.view.details_fragment.DetailsFragment
@@ -76,14 +77,12 @@ class MainFragment : Fragment() {
             }
             is AppState.Error -> {
                 mainFragmentLoadingLayout.visibility = View.GONE
-                Snackbar
-                    .make(
-                        binding.mainFragmentFAB,
-                        getString(R.string.error),
-                        Snackbar.LENGTH_INDEFINITE
-                    )
-                    .setAction(getString(R.string.reload)) { viewModel.getWeatherFromLocalSourceRus() }
-                    .show()
+                mainFragmentFAB.showSnackBar(
+                    getString(R.string.error),
+                    getString(R.string.reload),
+                    { viewModel.getWeatherFromLocalSourceRus() },
+
+                )
             }
         }
     }

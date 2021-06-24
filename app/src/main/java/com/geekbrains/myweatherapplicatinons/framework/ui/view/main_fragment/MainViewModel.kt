@@ -23,8 +23,6 @@ LiveData представляет собой реализацию паттерн
 через метод setValue(), если делаем это с главного потока приложения, или postValue(),
 когда хотим передать данные из другого потока.
  */
-// Передаём в конструктор LiveData, а точнее, реализацию LiveData, поскольку сам класс LiveData абстрактный
-// MutableLiveData - изменяемая лайвдата, добавляет изменяемый обьект
 class MainViewModel(
     private val repository: Repository
 ) : ViewModel(), LifecycleObserver {

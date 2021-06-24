@@ -27,18 +27,20 @@ class DetailsFragment : Fragment() {
         val weather = arguments?.getParcelable<Weather>(BUNDLE_EXTRA)
         // let проверяет аргумент на null если null то не зайдем
         weather?.let {
-            // it - это Weather
-            // берем навзание города
-            val city = it.city
-            binding.cityName.text = city.city
-            binding.cityCoordinates.text = String.format(
-                getString(R.string.city_coordinates),
-                city.lat.toString(),
-                city.lon.toString()
-            )
-            binding.temperatureValue.text = it.temperature.toString()
-            binding.feelsLikeLabel.text = it.feelsLike.toString()
-        } //?: run { // сode..} если хотим дальше запустить код
+            with(binding) {
+                // it - это Weather
+                // берем навзание города
+                val city = it.city
+                cityName.text = city.city
+                cityCoordinates.text = String.format(
+                    getString(R.string.city_coordinates),
+                    city.lat.toString(),
+                    city.lon.toString()
+                )
+                temperatureValue.text = it.temperature.toString()
+                feelsLikeLabel.text = it.feelsLike.toString()
+            } //?: run { // сode..} если хотим дальше запустить код
+        }
     }
 
     /* Можно обращаться к методам и свойствам объекта через имя содержащего его класса без явного указания
