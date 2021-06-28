@@ -8,11 +8,12 @@ import android.view.ViewGroup
 import com.geekbrains.myweatherapplicatinons.R
 import com.geekbrains.myweatherapplicatinons.databinding.FragmentDetailsBinding
 import com.geekbrains.myweatherapplicatinons.model.Weather
-
+import com.geekbrains.myweatherapplicatinons.viewmodel.AppState
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailsFragment : Fragment() {
-
     private lateinit var binding: FragmentDetailsBinding
+    private val viewModel: DetailsViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,16 +38,32 @@ class DetailsFragment : Fragment() {
                     city.lat.toString(),
                     city.lon.toString()
                 )
-                temperatureValue.text = it.temperature.toString()
-                feelsLikeLabel.text = it.feelsLike.toString()
-            } //?: run { // сode..} если хотим дальше запустить код
+                viewModel.liveDataToObserve.observe(viewLifecycleOwner, { appState ->
+                    when (appState) {
+                        is AppState.Error -> {
+                            //...
+                            loadingLayout.visibility = View.GONE
+                        }
+                        AppState.Loading -> binding.loadingLayout.visibility = View.VISIBLE
+                        is AppState.Success -> {
+                            loadingLayout.visibility = View.GONE
+                            temperatureValue.text = appState.weatherData[0].temperature?.toString()
+                            feelsLikeValue.text = appState.weatherData[0].feelsLike?.toString()
+                            weatherCondition.text = appState.weatherData[0].condition
+                        }
+                    }
+                })
+                viewModel.loadData(it.city.lat, it.city.lon)
+            }
         }
     }
 
     /* Можно обращаться к методам и свойствам объекта через имя содержащего его класса без явного указания
    имени объекта.*/
     companion object {
+        private const val api_key = "91505610-2e55-4b79-a666-6c171068e2d3"
         const val BUNDLE_EXTRA = "weather" // const - означет, что переменная будет компилирована
+
 
         // в константу на этапе компиляции
         fun newInstance(bundle: Bundle): DetailsFragment {
