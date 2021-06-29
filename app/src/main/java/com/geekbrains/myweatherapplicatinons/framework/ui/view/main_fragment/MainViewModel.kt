@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.geekbrains.myweatherapplicatinons.model.repository.Repository
 import com.geekbrains.myweatherapplicatinons.model.repository.RepositoryImpl
 import com.geekbrains.myweatherapplicatinons.viewmodel.AppState
+import kotlinx.coroutines.*
 import java.lang.Thread.sleep
 
 /**
@@ -25,7 +26,7 @@ LiveData представляет собой реализацию паттерн
  */
 class MainViewModel(
     private val repository: Repository
-) : ViewModel(), LifecycleObserver {
+) : ViewModel(), LifecycleObserver,CoroutineScope by MainScope() {
 
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
 
@@ -39,15 +40,15 @@ class MainViewModel(
     fun getWeatherFromRemoteSource() = getDataFromLocalSource(isRussian = true)
 
     fun getDataFromLocalSource(isRussian: Boolean) {
-        liveDataToObserve.value = AppState.Loading // Показываем загрузку на старте
-        Thread {
-            sleep(1000)
-            val data = when (isRussian) {
-                true -> repository.getWeatherFromLocalStorageRus()
-                false -> repository.getWeatherFromLocalStorageWorld()
+        liveDataToObserve.value = AppState.Loading
+        launch {
+            delay(1000)
+            val localStorageJob = async(Dispatchers.IO) {
+                if (isRussian) repository.getWeatherFromLocalStorageRus()
+                else repository.getWeatherFromLocalStorageWorld()
             }
-            liveDataToObserve.postValue(AppState.Success(data))
-        }.start()
+            liveDataToObserve.value = AppState.Success(localStorageJob.await())
+        }
     }
 }
 /**

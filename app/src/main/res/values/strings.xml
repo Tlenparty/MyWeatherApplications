@@ -7,4 +7,8 @@
     <string name="change_list_of_cities">Изменить список городов</string>
     <string name="error">Ошибка!</string>
     <string name="reload">Обновить</string>
+    <string name="calculate">Расчет</string>
+    <string name="start_service">Старт сервиса</string>
+    <string name="stop_service">Стоп сервиса</string>
+    <string name="threads">Потоки</string>
 </resources>

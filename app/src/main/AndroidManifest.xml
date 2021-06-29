@@ -3,6 +3,7 @@
     package="com.geekbrains.myweatherapplicatinons">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     
     <application
         android:name=".framework.App"
@@ -19,6 +20,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--Обзательно надо прописать сервисы в манифесте-->
+        <service android:name=".experiment.services.MyForegroundService"
+            android:foregroundServiceType="location"
+            android:enabled="true"/>
+
+        <service android:name=".experiment.services.ServiceWithThread"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:enabled="true"/>
+
+        <service android:name=".experiment.services.UsualService"
+            android:enabled="true"/>
+
+        <!--Прописываем ресивер и указываем к нему фильтр-->
+        <receiver android:name=".framework.broadcast.MainBroadcastReceiver">
+            <intent-filter>
+                <!-- Когда меняем язык будет срабатывать ресивер-->
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

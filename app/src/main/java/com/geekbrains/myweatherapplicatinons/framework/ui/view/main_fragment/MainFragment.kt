@@ -14,9 +14,13 @@ import com.geekbrains.myweatherapplicatinons.framework.ui.view.details_fragment.
 import com.geekbrains.myweatherapplicatinons.viewmodel.AppState
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), CoroutineScope by MainScope(){ // все курутины будут работать в UI thread
     private lateinit var binding: FragmentMainBinding
     private val viewModel: MainViewModel by viewModel()
 
@@ -36,6 +40,17 @@ class MainFragment : Fragment() {
         binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
         viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
         viewModel.getWeatherFromLocalSourceRus()
+        //  launch вызов курутины
+        // Dispatchers- для изменения курутины
+        // .IO(фон) .Default (фон для расчетов) .Main(UI-поток) .Unconfined
+        /*launch {
+            delay(1000) // спим, только без зависания
+            val job = async(Dispatchers.Default) { // launch только с возвратом значения
+                startCalculations(10)
+            }
+            // сначала job.await - заставит дождать окончания job и только потом идем дальше
+            println(job.await())
+        }*/
     }
 
     private fun changeWeatherDataSet() = with(binding) {
