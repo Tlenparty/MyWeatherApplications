@@ -11,4 +11,5 @@
     <string name="start_service">Старт сервиса</string>
     <string name="stop_service">Стоп сервиса</string>
     <string name="threads">Потоки</string>
+    <string name="todo">TODO</string>
 </resources>

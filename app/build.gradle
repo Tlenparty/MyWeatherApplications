@@ -57,6 +57,11 @@ dependencies {
     implementation 'io.insert-koin:koin-android:3.0.2'
     // GSON
     implementation 'com.google.code.gson:gson:2.8.5'
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    //Image loading
+    implementation 'com.squareup.picasso:picasso:2.8'
     // Test
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

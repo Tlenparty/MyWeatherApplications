@@ -8,8 +8,15 @@ import android.view.ViewGroup
 import com.geekbrains.myweatherapplicatinons.R
 import com.geekbrains.myweatherapplicatinons.databinding.FragmentDetailsBinding
 import com.geekbrains.myweatherapplicatinons.model.Weather
+import com.geekbrains.myweatherapplicatinons.model.rest.WeatherRepo
+import com.geekbrains.myweatherapplicatinons.model.rest.rest_entities.WeatherDTO
+import com.geekbrains.myweatherapplicatinons.utils.CircleTransformation
 import com.geekbrains.myweatherapplicatinons.viewmodel.AppState
+import com.squareup.picasso.Picasso
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DetailsFragment : Fragment() {
     private lateinit var binding: FragmentDetailsBinding
@@ -29,8 +36,6 @@ class DetailsFragment : Fragment() {
         // let проверяет аргумент на null если null то не зайдем
         weather?.let {
             with(binding) {
-                // it - это Weather
-                // берем навзание города
                 val city = it.city
                 cityName.text = city.city
                 cityCoordinates.text = String.format(
@@ -54,18 +59,43 @@ class DetailsFragment : Fragment() {
                     }
                 })
                 viewModel.loadData(it.city.lat, it.city.lon)
+                Picasso
+                    .get()
+                    .load("https://catherineasquithgallery.com/uploads/posts/2021-03/1614571201_2-p-gorod-na-belom-fone-2.png")
+                    .transform(CircleTransformation())
+                    .fit()
+                    .into(imageView)
+                /* WeatherRepo.api.getWeather(it.city.lat, it.city.lon)
+                    .enqueue(object : Callback<WeatherDTO> {
+                        override fun onResponse(
+                            call: Call<WeatherDTO>,
+                            response: Response<WeatherDTO>
+                        ) {
+                            if(response.isSuccessful) {
+                                val weather = response.body()?.let {
+                                    Weather(
+                                        temperature = it.fact.temp,
+                                        feelsLike = it.fact.feelsLike,
+                                        condition = it.fact.condition
+                                    )
+                                } ?: Weather()
+                                loadingLayout.visibility = View.GONE
+                                temperatureValue.text = weather.temperature?.toString()
+                                feelsLikeValue.text = weather.feelsLike?.toString()
+                                weatherCondition.text = weather.condition
+                            }
+                        }
+                        override fun onFailure(call: Call<WeatherDTO>, t: Throwable) {
+                           //Запрос не прошел, или что-то другое на вашей стороне
+                        }
+                    })*/
             }
         }
     }
 
-    /* Можно обращаться к методам и свойствам объекта через имя содержащего его класса без явного указания
-   имени объекта.*/
     companion object {
         private const val api_key = "91505610-2e55-4b79-a666-6c171068e2d3"
-        const val BUNDLE_EXTRA = "weather" // const - означет, что переменная будет компилирована
-
-
-        // в константу на этапе компиляции
+        const val BUNDLE_EXTRA = "weather"
         fun newInstance(bundle: Bundle): DetailsFragment {
             val fragment = DetailsFragment()
             fragment.arguments = bundle
