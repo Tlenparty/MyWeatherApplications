@@ -1,4 +1,4 @@
-package com.geekbrains.myweatherapplicatinons.framework.ui.threads_fragment
+package com.geekbrains.myweatherapplicatinons.framework.ui.view.threads_fragment
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -16,7 +16,6 @@ import com.geekbrains.myweatherapplicatinons.experiment.services.MyForegroundSer
 import com.geekbrains.myweatherapplicatinons.experiment.services.ServiceWithThread
 import com.geekbrains.myweatherapplicatinons.experiment.services.UsualService
 import kotlinx.coroutines.*
-import kotlinx.coroutines.NonCancellable.start
 import java.lang.Runnable
 import java.util.*
 import java.util.concurrent.TimeUnit

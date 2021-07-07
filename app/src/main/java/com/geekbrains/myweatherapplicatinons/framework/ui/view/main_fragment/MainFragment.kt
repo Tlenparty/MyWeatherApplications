@@ -1,5 +1,6 @@
 package com.geekbrains.myweatherapplicatinons.framework.ui.view.main_fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +21,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainFragment : Fragment(), CoroutineScope by MainScope(){ // все курутины будут работать в UI thread
+class MainFragment : Fragment(), CoroutineScope by MainScope() {
     private lateinit var binding: FragmentMainBinding
     private val viewModel: MainViewModel by viewModel()
 
@@ -40,20 +41,24 @@ class MainFragment : Fragment(), CoroutineScope by MainScope(){ // все кур
         binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
         viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
         viewModel.getWeatherFromLocalSourceRus()
-        //  launch вызов курутины
-        // Dispatchers- для изменения курутины
-        // .IO(фон) .Default (фон для расчетов) .Main(UI-поток) .Unconfined
-        /*launch {
-            delay(1000) // спим, только без зависания
-            val job = async(Dispatchers.Default) { // launch только с возвратом значения
-                startCalculations(10)
-            }
-            // сначала job.await - заставит дождать окончания job и только потом идем дальше
-            println(job.await())
-        }*/
+
+        initDataSet()
+        loadDataSet()
     }
 
-    private fun changeWeatherDataSet() = with(binding) {
+    private fun initDataSet() {
+        activity?.let {
+            isDataSetRus = it.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
+                .getBoolean(isDataSetKeyRus, true)
+        }
+    }
+
+    private fun changeWeatherDataSet() {
+        isDataSetRus = !isDataSetRus
+        loadDataSet()
+    }
+
+    private fun loadDataSet() = with(binding) {
         if (isDataSetRus) {
             viewModel.getWeatherFromLocalSourceWorld()
             mainFragmentFAB.setImageResource(R.drawable.ic_earth)
@@ -61,7 +66,16 @@ class MainFragment : Fragment(), CoroutineScope by MainScope(){ // все кур
             viewModel.getWeatherFromLocalSourceRus()
             mainFragmentFAB.setImageResource(R.drawable.ic_russia)
         }
-        isDataSetRus = !isDataSetRus
+        saveDataToDisk()
+    }
+
+    private fun saveDataToDisk() {
+        activity?.let {
+            val preferences = it.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
+            val editor = preferences.edit()
+            editor.putBoolean(isDataSetKeyRus, isDataSetRus)
+            editor.apply()
+        }
     }
 
     private fun renderData(appState: AppState) {
@@ -95,18 +109,21 @@ class MainFragment : Fragment(), CoroutineScope by MainScope(){ // все кур
                 mainFragmentFAB.showSnackBar(
                     getString(R.string.error),
                     getString(R.string.reload),
-                    { viewModel.getWeatherFromLocalSourceRus() },
+                    {
+                        viewModel.getWeatherFromLocalSourceRus()
+                    },
 
-                )
+                    )
             }
         }
     }
 
     companion object {
         fun newInstance() = MainFragment()
+        private const val isDataSetKeyRus = "isDataSetKeyRus"
+        private const val preferencesName = "MainPreferences"
     }
 
-    // В адаптере этот интрефс будет приходить на вход
     interface OnItemViewClickListener {
         fun onItemViewClick(weather: Weather)
     }

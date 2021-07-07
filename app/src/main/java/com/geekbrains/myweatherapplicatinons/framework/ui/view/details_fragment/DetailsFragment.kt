@@ -58,7 +58,7 @@ class DetailsFragment : Fragment() {
                         }
                     }
                 })
-                viewModel.loadData(it.city.lat, it.city.lon)
+                viewModel.loadData(it.city)
                 Picasso
                     .get()
                     .load("https://catherineasquithgallery.com/uploads/posts/2021-03/1614571201_2-p-gorod-na-belom-fone-2.png")

@@ -1,5 +1,5 @@
 package com.geekbrains.myweatherapplicatinons.model.rest.rest_entities
 
-data class WeatherDTO (
+data class WeatherDTO(
     val fact : FactDTO
 )
