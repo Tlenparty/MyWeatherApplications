@@ -1,10 +1,12 @@
-package com.geekbrains.myweatherapplicatinons
+package com.geekbrains.myweatherapplicatinons.framework.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
+import com.geekbrains.myweatherapplicatinons.R
+import com.geekbrains.myweatherapplicatinons.framework.ui.view.contacts_fragment.ContactsFragment
 import com.geekbrains.myweatherapplicatinons.framework.ui.view.threads_fragment.ThreadsFragment
 import com.geekbrains.myweatherapplicatinons.framework.ui.view.history_fragment.HistoryFragment
 import com.geekbrains.myweatherapplicatinons.framework.ui.view.main_fragment.MainFragment
@@ -36,6 +38,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.menu_history -> {
                 openFragment(HistoryFragment.newInstance())
+                true
+            }
+            R.id.menu_contacts_provider ->{
+                openFragment(ContactsFragment.newInstance())
                 true
             }
             else -> super.onOptionsItemSelected(item)

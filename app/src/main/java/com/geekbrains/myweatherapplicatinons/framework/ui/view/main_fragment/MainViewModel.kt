@@ -8,9 +8,11 @@ import com.geekbrains.myweatherapplicatinons.viewmodel.AppState
 import kotlinx.coroutines.*
 import java.lang.Thread.sleep
 
-class MainViewModel(private val repository: Repository)
+class MainViewModel(
+    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData())
     : ViewModel(), LifecycleObserver, CoroutineScope by MainScope() {
-    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
+
+    private val repository: Repository = RepositoryImpl()
 
     fun getLiveData() = liveDataToObserve
 

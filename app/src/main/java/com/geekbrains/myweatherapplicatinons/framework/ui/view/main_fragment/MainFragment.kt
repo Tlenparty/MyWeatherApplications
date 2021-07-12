@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.geekbrains.myweatherapplicatinons.R
 import com.geekbrains.myweatherapplicatinons.databinding.FragmentMainBinding
 import com.geekbrains.myweatherapplicatinons.experiment.showSnackBar
@@ -22,8 +23,11 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment(), CoroutineScope by MainScope() {
-    private lateinit var binding: FragmentMainBinding
-    private val viewModel: MainViewModel by viewModel()
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this).get(MainViewModel::class.java)
+    }
 
     private var adapter: MainFragmentAdapter? = null
     private var isDataSetRus: Boolean = true
@@ -31,7 +35,7 @@ class MainFragment : Fragment(), CoroutineScope by MainScope() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMainBinding.inflate(inflater, container, false)
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
         return binding.root
     }
 
