@@ -28,7 +28,7 @@ class EducationContentProvider : ContentProvider() {
 
     override fun onCreate(): Boolean {
         // Прочитаем часть пути из ресурсов
-        authorities = "geekbrains.provider"
+        authorities = "unicalname"
         // Вспомогательный класс для определения типа запроса
         uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
         // Если нас интересуют все объекты

@@ -78,7 +78,7 @@ class ContactsFragment : Fragment() {
                 null,
                 null,
                 null,
-                ContactsContract.Contacts.DISPLAY_NAME + "ASC"
+                ContactsContract.Contacts.DISPLAY_NAME + " ASC"
             )
 
             cursorWithContacts?.let { cursor ->

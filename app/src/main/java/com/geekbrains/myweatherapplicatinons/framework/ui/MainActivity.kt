@@ -10,6 +10,7 @@ import com.geekbrains.myweatherapplicatinons.framework.ui.view.contacts_fragment
 import com.geekbrains.myweatherapplicatinons.framework.ui.view.threads_fragment.ThreadsFragment
 import com.geekbrains.myweatherapplicatinons.framework.ui.view.history_fragment.HistoryFragment
 import com.geekbrains.myweatherapplicatinons.framework.ui.view.main_fragment.MainFragment
+import com.geekbrains.myweatherapplicatinons.framework.ui.view.maps_fragment.MapsFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -42,6 +43,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.menu_contacts_provider ->{
                 openFragment(ContactsFragment.newInstance())
+                true
+            }
+            R.id.menu_google_maps ->{
+                openFragment(MapsFragment.newInstance())
                 true
             }
             else -> super.onOptionsItemSelected(item)
