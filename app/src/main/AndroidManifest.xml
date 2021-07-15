@@ -44,6 +44,12 @@
         <service
             android:name=".experiment.services.UsualService"
             android:enabled="true" />
+        <service
+            android:name=".framework.MessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
         <receiver android:name=".framework.broadcast.MainBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.LOCALE_CHANGED" />
