@@ -18,6 +18,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Тестовые ключи API
+        buildConfigField "String", "YANDEX_WEATHER_API_KEY", "\"7a436743-4c9e-415e-9edc-cc6b53f7c987\""
+        resValue "string", "maps_api_key", "AIzaSyCWoqucQS-uOc2H3Rc2Q4ImFzkKYm0e-PA"
     }
 
     buildTypes {

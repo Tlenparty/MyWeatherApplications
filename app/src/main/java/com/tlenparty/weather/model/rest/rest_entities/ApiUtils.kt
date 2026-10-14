@@ -1,5 +1,7 @@
 package com.tlenparty.weather.model.rest.rest_entities
 
+import com.tlenparty.weather.BuildConfig
+
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
@@ -16,7 +18,7 @@ object ApiUtils {
         httpClient.addInterceptor { chain ->
             val original = chain.request()
             val request = original.newBuilder() // к оригинальному реквесту добавляем поля
-                .header("X-Yandex-API-Key", "7a436743-4c9e-415e-9edc-cc6b53f7c987")
+                .header("X-Yandex-API-Key", BuildConfig.YANDEX_WEATHER_API_KEY)
                 .method(original.method(), original.body())
                 .build()
             chain.proceed(request)

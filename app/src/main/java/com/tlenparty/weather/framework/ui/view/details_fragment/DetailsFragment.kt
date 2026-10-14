@@ -94,7 +94,6 @@ class DetailsFragment : Fragment() {
     }
 
     companion object {
-        private const val api_key = "91505610-2e55-4b79-a666-6c171068e2d3"
         const val BUNDLE_EXTRA = "weather"
         fun newInstance(bundle: Bundle): DetailsFragment {
             val fragment = DetailsFragment()

@@ -1,5 +1,7 @@
 package com.tlenparty.weather.model
 
+import com.tlenparty.weather.BuildConfig
+
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.tlenparty.weather.model.rest_entities.WeatherDTO
@@ -22,7 +24,7 @@ object  WeatherLoader {
                 urlConnection = uri.openConnection() as HttpsURLConnection
                 urlConnection.requestMethod = "GET"
                 urlConnection.addRequestProperty(
-                    "X-Yandex-API-Key", "91505610-2e55-4b79-a666-6c171068e2d3"
+                    "X-Yandex-API-Key", BuildConfig.YANDEX_WEATHER_API_KEY
                 )
                 urlConnection.readTimeout = 10000
                 val bufferedReader = BufferedReader(InputStreamReader(urlConnection.inputStream))

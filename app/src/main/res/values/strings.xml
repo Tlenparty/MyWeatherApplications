@@ -1,5 +1,4 @@
 <resources>
-    <string name="maps_api_key" translatable="true">AIzaSyCWoqucQS-uOc2H3Rc2Q4ImFzkKYm0e-PA</string>
     <string name="app_name">My Weather Applicatinons</string>
     <string name="mainfragment">MainFragment</string>
     <string name="temperature_label">Температура</string>
