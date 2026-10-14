@@ -49,6 +49,9 @@ app/src/main/java/com/tlenparty/weather/
 
 ## Сборка
 
+Тестовые ключи API (Яндекс.Погода, Google Maps) заданы в `app/build.gradle`
+(`buildConfigField` и `resValue` в `defaultConfig`).
+
 Требуется JDK 11–17 и Android SDK 31.
 
 ```bash
